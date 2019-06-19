@@ -14,46 +14,33 @@ public extension UIControl {
         static var eventHandlers = 0
     }
 
-    private var eventHandlers: NSMutableDictionary? {
-        get {
-            if let dictionary = objc_getAssociatedObject(self, &PublisherAssociatedValues.eventHandlers) as? NSMutableDictionary {
-                return dictionary
-            } else {
-                let dictionary = NSMutableDictionary()
-                objc_setAssociatedObject(self, &PublisherAssociatedValues.eventHandlers, dictionary, .OBJC_ASSOCIATION_RETAIN)
-                return dictionary
-            }
+    private class EventHandler<Failure: Error> {
+
+        let subscriber: AnySubscriber<Void, Failure>
+
+        init(for subscriber: AnySubscriber<Void, Failure>) {
+            self.subscriber = subscriber
+        }
+
+        @objc func onEvent(sender: AnyObject, event: UIControl.Event) {
+            _ = subscriber.receive(())
         }
     }
 
-    func publisher(for events: UIControl.Event) -> AnyPublisher<Void, Never> {
+    func publisher<Failure: Error>(for events: UIControl.Event) -> AnyPublisher<Void, Failure> {
 
-        class EventHandler {
-
-            let identifier = NSUUID()
-            let subscriber: AnySubscriber<Void, Never>
-
-            init(for subscriber: AnySubscriber<Void, Never>) {
-                self.subscriber = subscriber
-            }
-
-            @objc func onEvent(sender: AnyObject, event: UIControl.Event) {
-                _ = subscriber.receive(())
-            }
-        }
-
-        return AnyPublisher<Void, Never> { [weak self] subscriber in
-            let eventHandler = EventHandler(for: subscriber)
+        return AnyPublisher<Void, Failure> { [weak self] subscriber in
+            let eventHandler = EventHandler<Failure>(for: subscriber)
 
             subscriber.receive {
                 return Subscriptions.AnySubscription(task: { _ in
-                    self?.addTarget(eventHandler, action: #selector(EventHandler.onEvent(sender:event:)), for: events)
-                    self?.eventHandlers?.setObject(eventHandler, forKey: eventHandler.identifier)
+                    self?.addTarget(eventHandler, action: #selector(EventHandler<Failure>.onEvent(sender:event:)), for: events)
                 }, onCancelled: {
-                    self?.removeTarget(eventHandler, action: #selector(EventHandler.onEvent(sender:event:)), for: events)
-                    self?.eventHandlers?.removeObject(forKey: eventHandler.identifier)
+                    self?.removeTarget(eventHandler, action: #selector(EventHandler<Failure>.onEvent(sender:event:)), for: events)
                 })
             }
-        }
+            }
+            .subscribe(on: DispatchQueue.main)
+            .eraseToAnyPublisher()
     }
 }

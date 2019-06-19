@@ -21,7 +21,6 @@ class ViewController: UIViewController {
 
         let imageUrl = "https://www.123freevectors.com/wp-content/original/146083-dark-blue-blurred-bokeh-background-image.jpg"
         button.publisher(for: .touchUpInside)
-            .mapError { _ in URLError(.cancelled) }
             .map { _ in URLSession.shared.dataTaskPublisher(for: URL(string: imageUrl)!) }
             .switchToLatest()
             .sink { (data: Data, response: URLResponse) in
