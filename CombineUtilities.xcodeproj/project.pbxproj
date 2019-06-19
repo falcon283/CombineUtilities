@@ -22,6 +22,7 @@
 		E479C67D22B98C790045211B /* CombineUtilities.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E479C64122B986770045211B /* CombineUtilities.framework */; };
 		E479C67E22B98C790045211B /* CombineUtilities.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E479C64122B986770045211B /* CombineUtilities.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		E479C68322B98D730045211B /* Task.swift in Sources */ = {isa = PBXBuildFile; fileRef = E479C68222B98D730045211B /* Task.swift */; };
+		E4FB529F22BAA658006898E0 /* Lock.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4FB529E22BAA658006898E0 /* Lock.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -74,6 +75,7 @@
 		E479C67622B9879F0045211B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		E479C67822B9879F0045211B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E479C68222B98D730045211B /* Task.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Task.swift; sourceTree = "<group>"; };
+		E4FB529E22BAA658006898E0 /* Lock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Lock.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -147,6 +149,7 @@
 			isa = PBXGroup;
 			children = (
 				E479C66222B986F80045211B /* Cancellable+.swift */,
+				E4FB529E22BAA658006898E0 /* Lock.swift */,
 				E479C65E22B986B70045211B /* Subscriptions+.swift */,
 				E479C66022B986CF0045211B /* UIControl+.swift */,
 			);
@@ -320,6 +323,7 @@
 			files = (
 				E479C66122B986CF0045211B /* UIControl+.swift in Sources */,
 				E479C65F22B986B70045211B /* Subscriptions+.swift in Sources */,
+				E4FB529F22BAA658006898E0 /* Lock.swift in Sources */,
 				E479C66322B986F80045211B /* Cancellable+.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
